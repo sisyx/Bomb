@@ -1,0 +1,119 @@
+/* scripts */
+:root {
+	--no-fg: rgba(233, 233, 233, 0);
+	--fg: rgba(233, 233, 233, 1);
+	--flag-bg: rgb(30,190,50);
+	--un-flag-bg: darkcyan;
+}
+div.container {
+	display: grid;
+	grid-template-columns: repeat(10, 50px);
+	grid-template-rows: repeat(10, 50px);
+	gap: 5px;
+}
+div.block {
+	background: darkcyan;
+	transition: 30ms;
+}
+div.block * {
+	pointer-events: none;
+}
+
+div.un-opened-block {
+	color:	var(--no-fg);
+}
+div.opened-block {
+	color: var(--fg);
+}
+div.flaged-block {
+	background: var(--flag-bg);
+}
+div.un-flaged-block {
+	background: var(--un-flag-bg);
+}
+div.un-opened-block .text {
+	display: none;
+}
+div.opened-block .text {
+	display: block;
+}
+
+
+
+/* styles */
+body {
+	background: rgb(30,30,30);
+}
+div.block {
+	border-radius: 5px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+div.container {
+	background: linear-gradient(90deg,rgba(230, 230, 230, 0.1), rgba(230, 230, 230, 0.2));
+	border-radius: 5px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+}
+
+div.game-info-div {
+	color: whitesmoke;
+	font-size: 3rem;
+	background: linear-gradient(90deg,rgba(230, 230, 230, 0.1), rgba(230, 230, 230, 0.2));
+	display: inline-block;
+	min-width: 50vw;
+	position: absolute;
+	top: 5px;
+	left: 50%;
+	transform: translateX(-50%);
+	padding-left: 30px;
+	display: flex;
+	align-items: center;
+}
+div.time {
+	flex: 1;
+}
+div.time::before {
+	content: '\23f1';
+}
+div.flags-count {
+	flex: 1;
+}
+div.flags-count::before {
+	content: '\1f6a9';
+}
+
+
+@media (max-width: 750px) {
+	div.container {
+		grid-template-columns: repeat(10, 30px);
+		grid-template-rows: repeat(10, 30px);
+		gap: 5px;
+	}
+	div.game-info-div {
+		font-size: 2rem;
+	}
+}
+@media (max-width: 400px) {
+	div.container {
+		grid-template-columns: repeat(10, 25px);
+		grid-template-rows: repeat(10, 25px);
+		gap: 5px;
+	}
+	div.game-info-div {
+		font-size: 2rem;
+	}
+}
+@media (max-width: 320px) {
+	div.container {
+		grid-template-columns: repeat(10, 20px);
+		grid-template-rows: repeat(10, 20px);
+		gap: 2px;
+	}
+	div.game-info-div {
+		font-size: 2rem;
+	}
+}
