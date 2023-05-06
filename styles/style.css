@@ -110,7 +110,7 @@ div.flags-count::before {
 }
 @media (max-width: 320px) {
 	div.container {
-		width: 95vw;
+		width: 99vw;
 		grid-template-columns: repeat(10, 1fr);
 		grid-template-rows: repeat(10, 1fr);
 		gap: 2px;
