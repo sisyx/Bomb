@@ -17,7 +17,6 @@ setInterval(() => {
 
 
 
-
 // functions
 
 function evenetForBlocks(){
