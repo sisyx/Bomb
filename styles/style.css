@@ -19,7 +19,6 @@ div.block {
 div.block * {
 	pointer-events: none;
 }
-
 div.un-opened-block {
 	color:	var(--no-fg);
 }
@@ -29,9 +28,6 @@ div.opened-block {
 }
 div.flaged-block {
 	background: var(--flag-bg);
-}
-div.un-flaged-block {
-	background: var(--un-flag-bg);
 }
 div.un-opened-block .text {
 	display: none;
@@ -74,6 +70,7 @@ div.game-info-div {
 	padding-left: 30px;
 	display: flex;
 	align-items: center;
+	transition: all 150ms;
 }
 div.time {
 	flex: 1;
@@ -86,6 +83,19 @@ div.flags-count {
 }
 div.flags-count::before {
 	content: '\1f6a9';
+}
+
+.hide-btn {
+	position: fixed;
+	top: 10px;
+	left: 10px;
+	transform: rotate(0deg);
+	transition: all 150ms;
+	font-size: 4rem;
+	font-weight: bold;
+	color: royalblue;
+	background: none;
+	border: none;
 }
 
 @media (max-width: 750px) {

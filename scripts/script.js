@@ -1,6 +1,8 @@
 // first initialization
 const container = document.querySelector('div.container');
 const timeElement = document.querySelector('div.time');
+const gameInfoDiv = document.querySelector('.game-info-div');
+const hideBtn = document.querySelector('.hide-btn');
 var spentTime = 0;
 var activeBlocks = [];
 var flagsCount = 0;
@@ -14,6 +16,9 @@ setInterval(() => {
 	spentTime++
 	timeElement.innerHTML = spentTime;
 },1000);
+
+// hide and show info btn
+hideBtn.addEventListener('click', hide);
 
 
 
@@ -52,11 +57,9 @@ function evenetForBlocks(){
 					console.log('hellllllllllo')
 				} else {
 					if (event.target.classList.contains('flaged-block')) {
-						event.target.classList.add('un-flaged-block');
 						event.target.classList.remove('flaged-block');	
 						flagsCount--;
 					} else {
-						event.target.classList.remove('un-flaged-block');
 						event.target.classList.add('flaged-block');
 						flagsCount++;
 					}
@@ -161,7 +164,6 @@ function finishGame() {
 	flagsCount = 0;
 	removeAllClasses('active');
 	removeAllClasses('flaged-block');
-	addAllClasses('un-flaged-block');
 	removeAllClasses('opened-block');
 	addAllClasses('un-opened-block');
 }
@@ -208,5 +210,17 @@ function checkWining() {
 				document.querySelectorAll('.un-opened-block')[i].classList.remove('un-opened-block');
 			}
 		}
+	}
+}
+
+function hide() {
+	const infoStyle = window.getComputedStyle(gameInfoDiv);
+	if (infoStyle['top'] == '5px') {
+		gameInfoDiv.style.top = '-100%';
+		hideBtn.style.rotate = '180deg';
+	}
+	else {
+		gameInfoDiv.style.top = '5px';
+		hideBtn.style.rotate = '0deg';
 	}
 }
