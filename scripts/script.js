@@ -36,13 +36,14 @@ function blockClickHandler(event) {
 		if (event.target.classList.contains('active')) {
 			finishGame();
 			// alert(';FINISH;');
+			removeBlockEventHandlers();
 			document.querySelector('.lose-popup').classList.remove('hidden');
-			document.querySelector('.replay-btn').style.scale = 0;
+			document.querySelector('.replay-btn').classList.add('hidden');
 			// restartGame();
-			} else {
-				event.target.classList.remove('un-opened-block');
-				event.target.classList.add('opened-block');
-			}
+		} else {
+			event.target.classList.remove('un-opened-block');
+			event.target.classList.add('opened-block');
+		}
 	}
 	checkWining();
 }
@@ -85,6 +86,8 @@ function createElements() {
 		div.append(p);
 		container.append(div);
 	}
+
+	document.querySelector('.replay-btn').classList.remove('hidden');
 
 	for (let i = 20; i > 0; i--) {
 		let x = true;
@@ -186,7 +189,7 @@ function restartGame(){
 		spentTime++
 		timeElement.innerHTML = spentTime;
 	},1000);
-	document.querySelector('.replay-btn').style.scale = 1;
+	document.querySelector('.replay-btn').classList.remove('hidden');
 	
 }
 
@@ -208,7 +211,8 @@ function checkWining() {
 	const opnedCountEnough = (document.querySelectorAll('.block').length - document.querySelectorAll('.opened-block').length) == document.querySelectorAll('.active');
 	if (flagsCountEnough || opnedCountEnough) {
 		document.querySelector('.win-popup').classList.remove('hidden')
-		document.querySelector('.replay-btn').style.scale = 0;
+		document.querySelector('.replay-btn').classList.add('hidden');
+		removeBlockEventHandlers();
 		// alert('You Won!');
 		for (let i = document.querySelectorAll('.un-opened-block').length - 1; i >= 0; i--) {
 			if (document.querySelectorAll('.un-opened-block')[i].classList.contains('active') == false) {
@@ -244,10 +248,9 @@ function quirGame() {
 	document.querySelector('.lose-popup').classList.add('hidden');
 
 	// clear events for blocks
-	for (let i = 0; i < document.querySelectorAll('.block').length; i++ ) {
-		document.querySelectorAll('.block')[i].onclick = event => {return};
-		document.querySelectorAll('.block')[i].oncontextmenu = event => {return};
-	}
+	removeBlockEventHandlers();
+
+	document.querySelector('.replay-btn').classList.remove('hidden')
 }
 
 function winCheat() {
@@ -261,4 +264,11 @@ function winCheat() {
 		}
 	}
 	checkWining()
+}
+
+function removeBlockEventHandlers() {
+	for (let i = 0; i < document.querySelectorAll('.block').length; i++ ) {
+		document.querySelectorAll('.block')[i].onclick = event => {return};
+		document.querySelectorAll('.block')[i].oncontextmenu = event => {return};
+	}
 }

@@ -116,6 +116,9 @@ div.flags-count::before {
 	border: none;
 	transition: all 300ms;
 }
+.replay-btn.hidden {
+	display: none;
+}
 .replay-btn:active {
 	transform: translate(50%, 0) scale(0.9);
 	/* background-color: black; */
