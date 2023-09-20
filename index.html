@@ -15,7 +15,22 @@
 		<div class="time"></div>
 		<div class="flags-count">0</div>
 	</div>
+	<div class="win-popup popup hidden">
+		<p class="win-popup--text popup--text">You Win!</p>
+		<div class="win-popup--btns popup--btns">
+			<button class="win-popup--btn popup--btn ok-btn" onclick="restartGame()">REPLAY</button>
+			<button class="win-popup--btn popup--btn no-btn" onclick="quirGame()">QUIT</button>
+		</div>
+	</div>
+	<div class="lose-popup popup hidden">
+		<p class="lose-popup--text popup--text">You Lost!</p>
+		<div class="lose-popup--btns popup--btns">
+			<button class="lose-popup--btn popup--btn ok-btn" onclick="restartGame()">REPLAY</button>
+			<button class="lose-popup--btn popup--btn no-btn" onclick="quirGame()">QUIT</button>
+		</div>
+	</div>
 	<button class="hide-btn">^</button>
+	<button class="replay-btn" onclick="restartGame()">RETRY</button>
 
 
 	<script type="text/javascript" src="scripts/script.js"></script>

@@ -4,6 +4,12 @@
 	--fg: rgba(233, 233, 233, 1);
 	--flag-bg: rgb(30,190,50);
 	--un-flag-bg: darkcyan;
+
+	font-family: sans-serif, Arial, Helvetica, sans-serif;
+	box-sizing: border-box;
+}
+* {
+	box-sizing: border-box;
 }
 div.container {
 	padding: 3px;
@@ -96,6 +102,80 @@ div.flags-count::before {
 	color: royalblue;
 	background: none;
 	border: none;
+}
+
+.replay-btn {
+	/* background-image: url(https://icons8.com/icon/jZpTWAJNBgw3/restart); */
+	position: fixed;
+	bottom: 5px;
+	right: 50%;
+	transform: translate(50%, 0) scale(1);
+	/* background: none; */
+	background: var(--flag-bg);
+	color: black;
+	border: none;
+	transition: all 300ms;
+}
+.replay-btn:active {
+	transform: translate(50%, 0) scale(0.9);
+	/* background-color: black; */
+	color: white;
+}
+
+.popup {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: white;
+	width: 300px;
+	aspect-ratio: 16/9;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+}
+.popup.hidden {
+	display: none;
+}
+.popup--text {
+	flex: 1;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.5rem;
+	font-weight: 900;
+	/* background-color: black; */
+}
+.popup--btns {
+	display: flex;
+	width: 100%;
+}
+.popup--btn {
+	flex: 1;
+	background: none;
+	border: none;
+	padding: 5px;
+	cursor:crosshair;
+}
+.popup--btn.ok-btn {
+	background: green;
+	color: white;
+	/* border: 2px green solid; */
+}
+.popup--btn.ok-btn:hover {
+	background: rgb(0, 189, 0);
+	color: white;
+	/* border: 2px green solid; */
+}
+.popup--btn.no-btn {
+	background-color: red;
+	color: black;
+}
+.popup--btn.no-btn:hover {
+	background-color: rgb(197, 0, 0);
+	color: black;
 }
 
 @media (max-width: 750px) {

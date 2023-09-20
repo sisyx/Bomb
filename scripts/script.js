@@ -12,7 +12,7 @@ var flagsCount = 0;
 startGame();
 
 // count sppent time
-setInterval(() => {
+let timeInterval = setInterval(() => {
 	spentTime++
 	timeElement.innerHTML = spentTime;
 },1000);
@@ -24,53 +24,49 @@ hideBtn.addEventListener('click', hide);
 
 // functions
 
-function evenetForBlocks(){
-	const blockElementsList = document.querySelectorAll('div.block');
-	for (let i = 99; i >= 0; i--) {
-			// get chosen row and column
-			let chosenRow = getChosenRow(blockElementsList[i]);
-			let chosenColumn = getChosenColumn(blockElementsList[i]); 
-			// show number of active blocks arroun
-			blockElementsList[i].children[0].innerHTML = checkActiveBlocksNumbers(chosenRow, chosenColumn);
+function blockClickHandler(event) {
+	let chosenRow = getChosenRow(event.target);
+	let chosenColumn = getChosenColumn(event.target); 
+	// show number of active blocks arroun
+	event.target.children[0].innerHTML = checkActiveBlocksNumbers(chosenRow, chosenColumn);
 
-			// click event
-			blockElementsList[i].addEventListener('click', event => {
-				if (event.target.classList.contains('flaged-block')) {
-					console.log('hellllllllllo');
-				} else {
-					if (event.target.classList.contains('active')) {
-						finishGame();
-						alert(';FINISH;');
-						restartGame();
-					} else {
-						blockElementsList[i].classList.remove('un-opened-block');
-						blockElementsList[i].classList.add('opened-block');
-					}
-				}
-				checkWining();
-			})
-
-
-			// right click
-			blockElementsList[i].addEventListener('contextmenu', event => {
-				if (event.target.classList.contains('opened-block')) {
-					console.log('hellllllllllo')
-				} else {
-					if (event.target.classList.contains('flaged-block')) {
-						event.target.classList.remove('flaged-block');	
-						flagsCount--;
-					} else {
-						event.target.classList.add('flaged-block');
-						flagsCount++;
-					}
-				}
-				document.querySelector('.flags-count').innerHTML = flagsCount;
-				event.preventDefault();
-				checkWining();
-			})
+	if (event.target.classList.contains('flaged-block')) {
+		console.log('hellllllllllo');
+	} else {
+		if (event.target.classList.contains('active')) {
+			finishGame();
+			// alert(';FINISH;');
+			document.querySelector('.lose-popup').classList.remove('hidden');
+			document.querySelector('.replay-btn').style.scale = 0;
+			// restartGame();
+			} else {
+				event.target.classList.remove('un-opened-block');
+				event.target.classList.add('opened-block');
+			}
 	}
+	checkWining();
 }
 
+function blockRclickHandler(event) {
+	let chosenRow = getChosenRow(event.target);
+	let chosenColumn = getChosenColumn(event.target); 
+	// show number of active blocks arroun
+	event.target.children[0].innerHTML = checkActiveBlocksNumbers(chosenRow, chosenColumn);
+	if (event.target.classList.contains('opened-block')) {
+		console.log('hellllllllllo')
+	} else {
+		if (event.target.classList.contains('flaged-block')) {
+			event.target.classList.remove('flaged-block');	
+			flagsCount--;
+		} else {
+			event.target.classList.add('flaged-block');
+			flagsCount++;
+		}
+	}
+	document.querySelector('.flags-count').innerHTML = flagsCount;
+	checkWining();
+	event.preventDefault();
+}
 
 
 function createElements() {
@@ -80,6 +76,8 @@ function createElements() {
 		div.classList.add('un-opened-block');
 		div.classList.add(`c-${10-(i-1)%10}`);
 		div.classList.add(`r-${parseInt((i+9)/10)}`);
+		div.onclick = blockClickHandler;
+		div.oncontextmenu = blockRclickHandler;
 
 		const p = document.createElement('p');
 		p.classList.add('text');
@@ -101,6 +99,8 @@ function createElements() {
 }
 
 function deleteElements() {
+	document.querySelector('.win-popup').classList.add('hidden');
+	document.querySelector('.lose-popup').classList.add('hidden');
 	for (let i = 100 - 1; i >= 0; i--) {
 		document.querySelectorAll('.block')[i].remove();
 	}
@@ -173,7 +173,6 @@ function startGame() {
 	spentTime = 0;
 	flagsCount = 0;
 	createElements();
-	evenetForBlocks();
 }
 
 
@@ -182,9 +181,14 @@ function restartGame(){
 	flagsCount = 0;
 	deleteElements();
 	createElements();
-	evenetForBlocks();
+	clearInterval(timeInterval)
+	timeInterval = setInterval(() => {
+		spentTime++
+		timeElement.innerHTML = spentTime;
+	},1000);
+	document.querySelector('.replay-btn').style.scale = 1;
+	
 }
-
 
 function removeAllClasses(nameClass) {
 	for (let i = document.querySelectorAll(`.${nameClass}`).length-1; i >= 0; i--) {
@@ -203,10 +207,16 @@ function checkWining() {
 	const flagsCountEnough = document.querySelectorAll('.active.flaged-block').length === document.querySelectorAll('.active').length;
 	const opnedCountEnough = (document.querySelectorAll('.block').length - document.querySelectorAll('.opened-block').length) == document.querySelectorAll('.active');
 	if (flagsCountEnough || opnedCountEnough) {
-		alert('You Won!');
+		document.querySelector('.win-popup').classList.remove('hidden')
+		document.querySelector('.replay-btn').style.scale = 0;
+		// alert('You Won!');
 		for (let i = document.querySelectorAll('.un-opened-block').length - 1; i >= 0; i--) {
 			if (document.querySelectorAll('.un-opened-block')[i].classList.contains('active') == false) {
 				document.querySelectorAll('.un-opened-block')[i].classList.add('opened-block');
+				document.querySelectorAll('.un-opened-block')[i].classList.remove('un-opened-block');
+			} else {
+				document.querySelectorAll('.un-opened-block')[i].classList.add('flaged-block');
+				document.querySelectorAll('.un-opened-block')[i].classList.remove('un-flaged-block');
 				document.querySelectorAll('.un-opened-block')[i].classList.remove('un-opened-block');
 			}
 		}
@@ -223,4 +233,32 @@ function hide() {
 		gameInfoDiv.style.top = '5px';
 		hideBtn.style.rotate = '0deg';
 	}
+}
+
+function quirGame() {
+	// stop timer
+	clearInterval(timeInterval);
+	
+	// remove popupus
+	document.querySelector('.win-popup').classList.add('hidden');
+	document.querySelector('.lose-popup').classList.add('hidden');
+
+	// clear events for blocks
+	for (let i = 0; i < document.querySelectorAll('.block').length; i++ ) {
+		document.querySelectorAll('.block')[i].onclick = event => {return};
+		document.querySelectorAll('.block')[i].oncontextmenu = event => {return};
+	}
+}
+
+function winCheat() {
+	for (let i = document.querySelectorAll('.un-opened-block').length - 1; i >= 0; i--) {
+		if (document.querySelectorAll('.un-opened-block')[i].classList.contains('active') == false) {
+			document.querySelectorAll('.un-opened-block')[i].classList.add('opened-block');
+			document.querySelectorAll('.un-opened-block')[i].classList.remove('un-opened-block');
+		} else {
+			document.querySelectorAll('.un-opened-block')[i].classList.add('flaged-block');
+			document.querySelectorAll('.un-opened-block')[i].classList.remove('un-flaged-block');
+		}
+	}
+	checkWining()
 }
